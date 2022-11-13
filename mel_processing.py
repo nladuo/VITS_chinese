@@ -60,13 +60,23 @@ def spectrogram_torch(y, n_fft, sampling_rate, hop_size, win_size, center=False)
     if wnsize_dtype_device not in hann_window:
         hann_window[wnsize_dtype_device] = torch.hann_window(win_size).to(dtype=y.dtype, device=y.device)
 
+    print(wnsize_dtype_device)
+    print(y.shape)
+    print(y.unsqueeze(1).shape)
     y = torch.nn.functional.pad(y.unsqueeze(1), (int((n_fft-hop_size)/2), int((n_fft-hop_size)/2)), mode='reflect')
     y = y.squeeze(1)
 
+    print(y.shape)
+    print(y.unsqueeze(1).shape)
     spec = torch.stft(y, n_fft, hop_length=hop_size, win_length=win_size, window=hann_window[wnsize_dtype_device],
                       center=center, pad_mode='reflect', normalized=False, onesided=True)
 
     spec = torch.sqrt(spec.pow(2).sum(-1) + 1e-6)
+    # import torchaudio
+    #
+    # waveform, sample_rate = torchaudio.load("test.wav", normalize=True)
+    # transform = torchaudio.transforms.Spectrogram(n_fft=800)
+    # spectrogram = transform(waveform)
     return spec
 
 

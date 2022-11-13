@@ -101,12 +101,20 @@ def english_cleaners2(text):
 
 
 
-
 def chinese_cleaners1(text):
     from pypinyin import Style, pinyin
 
     phones = [phone[0] for phone in pinyin(text, style=Style.TONE3)]
-    return ' '.join(phones)
+    res = []
+    for p in phones:
+      if p[0].isalpha():
+        res.append(p)
+      else:
+        res.append("，")
+    if res[-1] == "，":
+      res[-1] = "。"
+
+    return ' '.join(res)
   
   
 def chinese_cleaners2(text):
