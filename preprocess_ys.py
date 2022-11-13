@@ -20,7 +20,7 @@ with open(f"YSAudio/{tag}/info.json", "r", encoding="utf-8") as f:
         cleaned_text = text._clean_text(audio["audio_text"], ["chinese_cleaners1"])
         print(cleaned_text)
         if not os.path.exists(f"test/{tag}/{audio['index']}.wav"):
-            cmd = f"ffmpeg -i YSAudio/{tag}/audios/{audio['index']}.{audio['audio_suffix']} -ac 1 -ar 16000 test/{tag}/{audio['index']}.wav"
+            cmd = f"ffmpeg -i YSAudio/{tag}/audios/{audio['index']}.{audio['audio_suffix']} -ac 1 -ar 10000 test/{tag}/{audio['index']}.wav"
             os.system(cmd)
             print(cmd)
         # if (len(cleaned_text.split(" ")) > 5) and (len(cleaned_text.split(" ")) < 20):
